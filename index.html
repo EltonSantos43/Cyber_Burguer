@@ -15,11 +15,11 @@
         integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Cyber Burguer - A melhor Humburgueria da região!"/>
-        <meta property="og:image" content="https://cyber-burguer.vercel.app/assets/hamb-1.png"/>
-        <meta property="og:description" content="O melhor Hamburguer caseiro da região."/>
-        <meta property="og:site_name" content="CyberBurguer"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Cyber Burguer - A melhor Humburgueria da região!" />
+    <meta property="og:image" content="https://cyber-burguer.vercel.app/assets/hamb-1.png" />
+    <meta property="og:description" content="O melhor Hamburguer caseiro da região." />
+    <meta property="og:site_name" content="CyberBurguer" />
 
     <link rel="stylesheet" href="./styles/output.css" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -201,6 +201,15 @@
             <input type="text" placeholder="Digite seu endereço para entrega..." id="address"
                 class="w-full border-2 p-1 rounded my-1" />
             <p class="text-red-500 hidden" id="address-warn">Digite seu endereço para entrega!</p>
+
+            <p class="font-bold mt-4">Digite seu nome:</p>
+            <input type="text" placeholder="Digite seu nome..." id="nameclient"
+                class="w-full border-2 p-1 rounded my-1" />
+            <p class="text-red-500 hidden" id="nameclient-warn">Digite seu nome!</p>
+
+            <p class="font-bold mt-4">Opcionais:</p>
+            <input type="text" placeholder="Digite aqui os opcionais do seu lanche..." id="optional"
+                class="w-full border-2 p-1 rounded my-1" />
 
             <div class="flex items-center justify-between mt-5 w-full">
                 <button id="close-modal-btn" class="font-bold">Fechar</button>

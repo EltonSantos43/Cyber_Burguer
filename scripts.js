@@ -6,8 +6,10 @@ const cartTotal = document.getElementById("cart-total")
 const closeModalBtn = document.getElementById("close-modal-btn")
 const cartCounter = document.getElementById("cart-count")
 const addressInput = document.getElementById("address")
+const nameClientInput = document.getElementById("nameclient")
 const checkoutBtn = document.getElementById("checkout-btn")
 const addressWarn = document.getElementById("address-warn")
+const nameClientWarn = document.getElementById("nameclient-warn")
 
 let cart = [];
 
@@ -96,6 +98,7 @@ function updateCartModal() {
 }
 
 
+
 // Função para remover o item do carrinho
 cartItemsContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains("remove-from-cart-btn")) {
@@ -122,6 +125,15 @@ function removeItemCart(name) {
     }
 }
 
+nameClientInput.addEventListener("input", function (event) {
+    let inputValue = event.target.value;
+
+    if (inputValue !== "") {
+        nameClientInput.classList.remove("border-red-500")
+        nameClientWarn.classList.add("hidden")
+    }
+})
+
 addressInput.addEventListener("input", function (event) {
     let inputValue = event.target.value;
 
@@ -132,7 +144,7 @@ addressInput.addEventListener("input", function (event) {
 })
 
 
-//Finalizar pedido
+// Finalizar pedido
 checkoutBtn.addEventListener("click", function () {
 
     const isOpen = checkRestaurantOpen();
@@ -153,28 +165,54 @@ checkoutBtn.addEventListener("click", function () {
         return;
     }
 
+    // Verifica se o carrinho está vazio
     if (cart.length === 0) return;
-    if (addressInput.value === "") {
-        addressWarn.classList.remove("hidden")
-        addressInput.classList.add("border-red-500")
+
+    // Validação do nome do cliente
+    if (nameClientInput.value.trim() === "") {
+        nameClientWarn.classList.remove("hidden");
+        nameClientInput.classList.add("border-red-500");
         return;
+    } else {
+        nameClientWarn.classList.add("hidden");
+        nameClientInput.classList.remove("border-red-500");
     }
 
-    //Enviar o pedido para api do whats
+    // Validação do endereço
+    if (addressInput.value.trim() === "") {
+        addressWarn.classList.remove("hidden");
+        addressInput.classList.add("border-red-500");
+        return;
+    } else {
+        addressWarn.classList.add("hidden");
+        addressInput.classList.remove("border-red-500");
+    }
+
+    // Obtém o valor do campo opcional
+    const optionalText = document.getElementById("optional").value.trim();
+
+    // Calcula o valor total
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+
+    // Cria a mensagem com cada item em uma linha separada
     const cartItems = cart.map((item) => {
-        return (
-            `${item.name} Quantidade: (${item.quantity}) Preço: R${item.price} |`
-        )
-    }).join("")
+        return `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price.toFixed(2)}`;
+    }).join("%0A"); // Adiciona uma quebra de linha entre cada item
 
-    const message = encodeURIComponent(cartItems)
-    const phone = "11993909028"
+    // Monta a mensagem final
+    let whatsappMessage = `Nome: ${nameClientInput.value}%0AEndereço: ${addressInput.value}`;
+    if (optionalText !== "") {
+        whatsappMessage += `%0AOpcionais: ${optionalText}`;
+    }
+    whatsappMessage += `%0A%0A${cartItems}%0A%0ATotal: R$ ${total}`;
 
-    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`, "_blank")
+    const phone = "5511993909028";
+    window.open(`https://wa.me/${phone}?text=${whatsappMessage}`, "_blank");
 
     cart = [];
     updateCartModal();
-})
+});
+
 
 //Verificar a hora e manipular o card horario
 function checkRestaurantOpen() {
