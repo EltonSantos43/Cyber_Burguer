@@ -64,6 +64,7 @@ function addToCart(name, price) {
 function updateCartModal() {
     cartItemsContainer.innerHTML = "";
     let total = 0;
+    let totalQuantity = 0;  // Nova variável para total de quantidade
 
     cart.forEach(item => {
         const cartItemElement = document.createElement("div");
@@ -80,11 +81,11 @@ function updateCartModal() {
                 <button class="remove-from-cart-btn" data-name="${item.name}">
                     Remover
                 </button>
-                
             </div>
         `
 
         total += item.price * item.quantity;
+        totalQuantity += item.quantity;  // Atualiza a quantidade total
 
         cartItemsContainer.appendChild(cartItemElement)
     })
@@ -94,10 +95,8 @@ function updateCartModal() {
         currency: "BRL"
     });
 
-    cartCounter.innerHTML = cart.length;
+    cartCounter.innerHTML = totalQuantity;  // Atualiza o contador com a quantidade total
 }
-
-
 
 // Função para remover o item do carrinho
 cartItemsContainer.addEventListener("click", function (event) {
@@ -218,7 +217,7 @@ checkoutBtn.addEventListener("click", function () {
 function checkRestaurantOpen() {
     const data = new Date();
     const hora = data.getHours();
-    return hora >= 18 && hora < 22;
+    return hora >= 18 && hora < 24;
     //true = restaurante está aberto
 }
 
